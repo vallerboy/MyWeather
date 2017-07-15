@@ -18,7 +18,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Label fx:id="textWeather" alignment="TOP_LEFT" layoutX="120.0" layoutY="43.0" prefHeight="133.0" prefWidth="361.0" text="Pogoda">
+      <Label fx:id="textWeather" alignment="TOP_LEFT" layoutX="120.0" layoutY="34.0" prefHeight="133.0" prefWidth="361.0" text="Pogoda">
          <font>
             <Font size="14.0" />
          </font>
@@ -27,5 +27,6 @@
          </padding>
       </Label>
       <TextField fx:id="weatherCity" layoutX="226.0" layoutY="200.0" promptText="Wpisz miasto" />
+      <ProgressIndicator fx:id="progressBar" layoutX="265.0" layoutY="172.0" prefHeight="57.0" prefWidth="71.0" visible="false" />
    </children>
 </AnchorPane>

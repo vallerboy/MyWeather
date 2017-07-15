@@ -2,10 +2,7 @@ package pl.oskarpolak.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import pl.oskarpolak.models.services.IWeatherObserver;
 import pl.oskarpolak.models.services.WeatherInfo;
 import pl.oskarpolak.models.services.WeatherService;
@@ -24,19 +21,26 @@ public class MainController implements Initializable, IWeatherObserver{
     @FXML
     private TextField  weatherCity;
 
+    @FXML
+    ProgressIndicator progressBar;
+
     private WeatherService weatherService = WeatherService.getService();
 
 
     public void initialize(URL location, ResourceBundle resources) {
         weatherService.addWeatherObserver(this);
+        progressBar.setVisible(false);
 
         buttonShowWeather.setOnMouseClicked(e -> {
             if(!weatherCity.getText().isEmpty() && weatherCity.getText().length() > 3) {
+                progressBar.setVisible(true);
                 weatherService.makeCall(weatherCity.getText(), "pl");
             }else{
+                //TODO add this to Utils class
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Błąd");
                 alert.setContentText("Nieprawidłowa nazwa miasta");
+                alert.show();
             }
         });
 
@@ -44,6 +48,11 @@ public class MainController implements Initializable, IWeatherObserver{
 
     @Override
     public void onWeatherUpdate(WeatherInfo weatherInfo) {
-        System.out.println("Temperatura z " + weatherInfo.getCityName() + ": " + weatherInfo.getTemperatureCelsius());
+        textWeather.setText("Temperatura: " + weatherInfo.getTemperatureCelsius() + "\n"
+                 + "Wilgotność: " + weatherInfo.getHumidity() + "\n"
+                 + "Ciśnenie: " + weatherInfo.getPressure() + "\n"
+                 + "Zachmurzenie: " + weatherInfo.getCloudy()
+        );
+        progressBar.setVisible(false);
     }
 }

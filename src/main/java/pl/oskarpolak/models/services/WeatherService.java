@@ -1,5 +1,6 @@
 package pl.oskarpolak.models.services;
 
+import javafx.application.Platform;
 import org.json.JSONObject;
 import pl.oskarpolak.models.Config;
 import pl.oskarpolak.models.Utils;
@@ -66,7 +67,7 @@ public class WeatherService {
 
         cityName = city;
 
-        informObservers();
+        Platform.runLater(() ->  informObservers());
     }
 
     public void addWeatherObserver(IWeatherObserver observer){
