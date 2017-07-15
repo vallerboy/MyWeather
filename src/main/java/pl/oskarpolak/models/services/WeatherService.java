@@ -19,6 +19,7 @@ public class WeatherService {
 
     // Dane API
     private String appurl;
+    private String cityName;
 
     //Dane z API
     private double temp;
@@ -35,6 +36,7 @@ public class WeatherService {
 
     public void makeCall(String city, String country){
         appurl = Config.APPURL + "weather" + "?q=" + city + "," + country + "&appid=" + Config.APPID;
+        cityName = city;
         parseJsonData(Utils.connectAndResponse(appurl));
     }
 
@@ -61,7 +63,7 @@ public class WeatherService {
     }
 
     private void informObservers(){
-        WeatherInfo weatherInfo = new WeatherInfo(temp, humidity, pressure, cloudy);
+        WeatherInfo weatherInfo = new WeatherInfo(temp, humidity, pressure, cloudy, cityName);
         observerList.forEach(s -> {
              s.onWeatherUpdate(weatherInfo);
         });

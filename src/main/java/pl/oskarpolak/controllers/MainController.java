@@ -23,12 +23,14 @@ public class MainController implements Initializable, IWeatherObserver{
 
         buttonShowWeather.setOnMouseClicked(e -> {
             weatherService.makeCall("Cracow", "pl");
+            weatherService.makeCall("Warsaw", "pl");
 
         });
+
     }
 
     @Override
     public void onWeatherUpdate(WeatherInfo weatherInfo) {
-        System.out.println("Temperatura z onWeatherUpdate: " + weatherInfo.getTemperatureCelsius());
+        System.out.println("Temperatura z " + weatherInfo.getCityName() + ": " + weatherInfo.getTemperatureCelsius());
     }
 }

@@ -10,15 +10,21 @@ public class WeatherInfo {
     private int humidity;
     private int pressure;
     private int cloudy;
+    private String cityName;
 
-    public WeatherInfo(double temp, int humidity, int pressure, int cloudy) {
+    public WeatherInfo(double temp, int humidity, int pressure, int cloudy, String cityName) {
         this.temp = temp;
         this.humidity = humidity;
         this.pressure = pressure;
         this.cloudy = cloudy;
+        this.cityName = cityName;
     }
 
-    public WeatherInfo() { }
+
+    public String getCityName() {
+        return cityName;
+    }
+
 
     public double getTemperatureKelvin(){
         return temp;
@@ -28,31 +34,18 @@ public class WeatherInfo {
         return Utils.kelvinToCelsius(temp);
     }
 
-    public void setTemp(double temp) {
-        this.temp = temp;
-    }
 
     public int getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(int humidity) {
-        this.humidity = humidity;
-    }
 
     public int getPressure() {
         return pressure;
     }
 
-    public void setPressure(int pressure) {
-        this.pressure = pressure;
-    }
 
     public int getCloudy() {
         return cloudy;
-    }
-
-    public void setCloudy(int cloudy) {
-        this.cloudy = cloudy;
     }
 }
