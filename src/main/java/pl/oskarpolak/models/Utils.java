@@ -28,4 +28,8 @@ public class Utils {
 
         return stringBuffer.toString();
     }
+
+    public static double kelvinToCelsius(double kelvin){
+        return kelvin - 273.15D;
+    }
 }

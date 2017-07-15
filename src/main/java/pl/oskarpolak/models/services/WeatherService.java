@@ -4,6 +4,9 @@ import org.json.JSONObject;
 import pl.oskarpolak.models.Config;
 import pl.oskarpolak.models.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Lenovo on 15.07.2017.
  */
@@ -22,6 +25,9 @@ public class WeatherService {
     private int humidity;
     private int pressure;
     private int cloudy;
+
+    //Observer pattern
+    List<IWeatherObserver> observerList = new ArrayList<>();
 
     private WeatherService() {
 
@@ -43,22 +49,21 @@ public class WeatherService {
         JSONObject cloudsObject = rootObject.getJSONObject("clouds");
         cloudy = cloudsObject.getInt("all");
 
+        informObservers();
     }
 
-    // Dostajemy się do danych ///
-    public double getTemperature(){
-        return temp;
+    public void addWeatherObserver(IWeatherObserver observer){
+        observerList.add(observer);
     }
 
-    public int getHumidity() {
-        return humidity;
+    public void removeWeatherObserver(IWeatherObserver observer){
+        observerList.remove(observer);
     }
 
-    public int getPressure() {
-        return pressure;
-    }
-
-    public int getCloudy() {
-        return cloudy;
+    private void informObservers(){
+        WeatherInfo weatherInfo = new WeatherInfo(temp, humidity, pressure, cloudy);
+        observerList.forEach(s -> {
+             s.onWeatherUpdate(weatherInfo);
+        });
     }
 }
