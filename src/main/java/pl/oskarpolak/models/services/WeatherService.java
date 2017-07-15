@@ -19,6 +19,9 @@ public class WeatherService {
 
     //Dane z API
     private double temp;
+    private int humidity;
+    private int pressure;
+    private int cloudy;
 
     private WeatherService() {
 
@@ -34,10 +37,28 @@ public class WeatherService {
         JSONObject mainObject = rootObject.getJSONObject("main");
 
         temp = mainObject.getDouble("temp");
+        humidity = mainObject.getInt("humidity");
+        pressure = mainObject.getInt("pressure");
+
+        JSONObject cloudsObject = rootObject.getJSONObject("clouds");
+        cloudy = cloudsObject.getInt("all");
+
     }
 
     // Dostajemy się do danych ///
     public double getTemperature(){
         return temp;
+    }
+
+    public int getHumidity() {
+        return humidity;
+    }
+
+    public int getPressure() {
+        return pressure;
+    }
+
+    public int getCloudy() {
+        return cloudy;
     }
 }

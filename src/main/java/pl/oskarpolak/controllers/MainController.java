@@ -20,8 +20,7 @@ public class MainController implements Initializable{
         buttonShowWeather.setOnMouseClicked(e -> {
             weatherService.makeCall("Cracow", "pl");
             System.out.println("Temperatura: " + weatherService.getTemperature());
+            System.out.println("Temperatura: " + weatherService.getTemperature());
         });
-
-
     }
 }
