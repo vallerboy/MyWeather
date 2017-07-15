@@ -2,7 +2,10 @@ package pl.oskarpolak.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import pl.oskarpolak.models.services.IWeatherObserver;
 import pl.oskarpolak.models.services.WeatherInfo;
 import pl.oskarpolak.models.services.WeatherService;
@@ -15,6 +18,12 @@ public class MainController implements Initializable, IWeatherObserver{
     @FXML
     private Button buttonShowWeather;
 
+    @FXML
+    private Label textWeather;
+
+    @FXML
+    private TextField  weatherCity;
+
     private WeatherService weatherService = WeatherService.getService();
 
 
@@ -22,9 +31,13 @@ public class MainController implements Initializable, IWeatherObserver{
         weatherService.addWeatherObserver(this);
 
         buttonShowWeather.setOnMouseClicked(e -> {
-            weatherService.makeCall("Cracow", "pl");
-            weatherService.makeCall("Warsaw", "pl");
-
+            if(!weatherCity.getText().isEmpty() && weatherCity.getText().length() > 3) {
+                weatherService.makeCall(weatherCity.getText(), "pl");
+            }else{
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Błąd");
+                alert.setContentText("Nieprawidłowa nazwa miasta");
+            }
         });
 
     }

@@ -41,15 +41,18 @@ public class WeatherService {
 
     }
 
-
     public void makeCall(String city, String country){
             executorService.execute(() -> {
-                String link = Config.APPURL + "weather" + "?q=" + city + "," + country + "&appid=" + Config.APPID;
+                 System.out.println("Ropoczynam zadanie z wątku i przypisuje link");
+                 String link = Config.APPURL + "weather" + "?q=" + city + "," + country + "&appid=" + Config.APPID;
+                 System.out.println("Przypisuje miasto");
+                System.out.println("Wykonuje parseJsonData");
                 parseJsonData(Utils.connectAndResponse(link), city);
             });
     }
 
     private synchronized void parseJsonData(String data, String city){
+        System.out.println("A tutaj ruszam już z parsem");
         JSONObject rootObject = new JSONObject(data);
         JSONObject mainObject = rootObject.getJSONObject("main");
 
@@ -59,6 +62,8 @@ public class WeatherService {
 
         JSONObject cloudsObject = rootObject.getJSONObject("clouds");
         cloudy = cloudsObject.getInt("all");
+
+
         cityName = city;
 
         informObservers();
