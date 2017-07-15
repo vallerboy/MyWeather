@@ -26,7 +26,7 @@ public class WeatherService {
 
     public void makeCall(String city, String country){
         appurl = Config.APPURL + "weather" + "?q=" + city + "," + country + "&appid=" + Config.APPID;
-        Utils.connectAndResponse(appurl);
+        parseJsonData(Utils.connectAndResponse(appurl));
     }
 
     private void parseJsonData(String data){
@@ -34,5 +34,10 @@ public class WeatherService {
         JSONObject mainObject = rootObject.getJSONObject("main");
 
         temp = mainObject.getDouble("temp");
+    }
+
+    // Dostajemy się do danych ///
+    public double getTemperature(){
+        return temp;
     }
 }

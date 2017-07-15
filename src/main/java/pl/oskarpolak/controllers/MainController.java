@@ -17,6 +17,11 @@ public class MainController implements Initializable{
 
 
     public void initialize(URL location, ResourceBundle resources) {
-        buttonShowWeather.setOnMouseClicked(e -> weatherService.makeCall("Cracow", "pl"));
+        buttonShowWeather.setOnMouseClicked(e -> {
+            weatherService.makeCall("Cracow", "pl");
+            System.out.println("Temperatura: " + weatherService.getTemperature());
+        });
+
+
     }
 }
