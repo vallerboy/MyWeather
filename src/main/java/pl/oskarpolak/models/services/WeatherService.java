@@ -21,7 +21,7 @@ public class WeatherService {
     }
 
     public void makeCall(String city, String country){
-        appurl = Config.APPURL + "?q=" + city + "," + country + "&appid=" + Config.APPID;
+        appurl = Config.APPURL + "weather" + "?q=" + city + "," + country + "&appid=" + Config.APPID;
         System.out.println(Utils.connectAndResponse(appurl));
     }
 }
