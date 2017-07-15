@@ -10,7 +10,7 @@ import java.net.URLConnection;
  * Created by Lenovo on 15.07.2017.
  */
 public class Utils {
-    public static String connectAndResponse(String url) {
+    public synchronized static String connectAndResponse(String url) {
         StringBuffer stringBuffer = new StringBuffer();
         try {
             URLConnection connection = new URL(url).openConnection();

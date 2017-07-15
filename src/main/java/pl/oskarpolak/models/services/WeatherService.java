@@ -6,6 +6,8 @@ import pl.oskarpolak.models.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by Lenovo on 15.07.2017.
@@ -19,28 +21,35 @@ public class WeatherService {
 
     // Dane API
     private String appurl;
-    private String cityName;
+
 
     //Dane z API
     private double temp;
     private int humidity;
     private int pressure;
     private int cloudy;
+    private String cityName;
 
     //Observer pattern
     List<IWeatherObserver> observerList = new ArrayList<>();
 
+    private ExecutorService executorService;
+
     private WeatherService() {
+        executorService = Executors.newFixedThreadPool(2);
+        appurl = "";
 
     }
+
 
     public void makeCall(String city, String country){
-        appurl = Config.APPURL + "weather" + "?q=" + city + "," + country + "&appid=" + Config.APPID;
-        cityName = city;
-        parseJsonData(Utils.connectAndResponse(appurl));
+            executorService.execute(() -> {
+                String link = Config.APPURL + "weather" + "?q=" + city + "," + country + "&appid=" + Config.APPID;
+                parseJsonData(Utils.connectAndResponse(link), city);
+            });
     }
 
-    private void parseJsonData(String data){
+    private synchronized void parseJsonData(String data, String city){
         JSONObject rootObject = new JSONObject(data);
         JSONObject mainObject = rootObject.getJSONObject("main");
 
@@ -50,6 +59,7 @@ public class WeatherService {
 
         JSONObject cloudsObject = rootObject.getJSONObject("clouds");
         cloudy = cloudsObject.getInt("all");
+        cityName = city;
 
         informObservers();
     }
@@ -68,4 +78,6 @@ public class WeatherService {
              s.onWeatherUpdate(weatherInfo);
         });
     }
+
+
 }
